@@ -1,0 +1,11 @@
+{
+  "name": "fez-browserify",
+  "version": "0.1.0",
+  "main": "src/main.js",
+  "dependencies": {
+    "browserify": "~3.19.0"
+  },
+  "keywords": [
+    "fez"
+  ]
+}
