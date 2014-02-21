@@ -2,10 +2,19 @@
   "name": "fez-browserify",
   "version": "0.1.0",
   "main": "src/main.js",
+  "scripts": {
+    "test": "node tests/main.js"
+  },
   "dependencies": {
     "browserify": "~3.19.0"
   },
   "keywords": [
     "fez"
-  ]
+  ],
+  "devDependencies": {
+    "tape": "~2.5.0",
+    "runtests": "~0.1.7",
+    "brfs": "~0.2.1",
+    "through": "~2.3.4"
+  }
 }
