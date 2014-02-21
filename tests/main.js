@@ -2,34 +2,46 @@ var browserify  = require('../src/main');
 var test        = require('tape');
 var through     = require('through');
 
-test('Browserify Should return a transformed file with hello world', function(t) {
-  t.plan(1);
-  var runner = browserify({
-    transforms: [
-      'brfs'
-    ]
-  })
+// Mock Input object -- simple mock
+var Input = function (filepath){
+  this.filepath = filepath;
+}
+Input.prototype.getFilename = function () {
+  return this.filepath;
+}
 
-  // Mock Input object -- simple mock
-  var Input = function (filepath){
-    this.filepath = filepath;
-  }
-  Input.prototype.getFilename = function () {
-    return this.filepath;
-  }
+function bundleTest(options, inputs, cb) {
+  var runner = browserify(options)
+  var bundleStream = runner(inputs);
 
-  var bundleStream = runner([new Input(__dirname+'/inputs/fstest.js')]);
-
-  var file = ''
+  var output = '';
 
   bundleStream.on('data', function(d) {
-    file += d.toString('utf8');
+    output += d.toString('utf8');
+  })
+
+  bundleStream.on('error', function(e) {
+    cb(e, '');
   })
   
   bundleStream.on('end', function() {
-    t.assert(file.indexOf('hello world') !== -1);
-    t.end();
+    cb(null, output);
   });
+}
+
+test('Browserify Should return a transformed file with hello world', function(t) {
+  t.plan(1);
+
+  bundleTest(
+    {transforms:['brfs']},
+    [new Input(__dirname+'/inputs/fstest.js')],
+    function (err, output) {
+      if (err) t.fail(err);
+      t.assert(output.indexOf('hello world') !== -1);
+      t.end();
+    }
+  )
+
 });
 
 
@@ -47,31 +59,13 @@ test('Browserify Should return a transformed file with goodbye world', function(
     })
   }
 
-  var runner = browserify({
-    transforms: [
-      'brfs',
-      trText
-    ]
-  })
-
-  // Mock Input object -- simple mock
-  var Input = function (filepath){
-    this.filepath = filepath;
-  }
-  Input.prototype.getFilename = function () {
-    return this.filepath;
-  }
-
-  var bundleStream = runner([new Input(__dirname+'/inputs/fstest.js')]);
-
-  var file = ''
-
-  bundleStream.on('data', function(d) {
-    file += d.toString('utf8');
-  })
-  
-  bundleStream.on('end', function() {
-    t.assert(file.indexOf('goodbye world') !== -1);
-    t.end();
-  });
+  bundleTest(
+    {transforms:['brfs', trText]},
+    [new Input(__dirname+'/inputs/fstest.js')],
+    function (err, output) {
+      if (err) t.fail(err);
+      t.assert(output.indexOf('goodbye world') !== -1);
+      t.end();
+    }
+  )
 });
