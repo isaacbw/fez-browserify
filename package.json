@@ -1,6 +1,7 @@
 {
   "name": "fez-browserify",
-  "version": "0.1.2",
+  "version": "0.1.3",
+  "description": "Browserify for your fez. Make your code Uber portable from backend to frontend.",
   "main": "src/main.js",
   "scripts": {
     "test": "node tests/main.js"
