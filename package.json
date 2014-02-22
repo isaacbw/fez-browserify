@@ -1,6 +1,6 @@
 {
   "name": "fez-browserify",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "src/main.js",
   "scripts": {
     "test": "node tests/main.js"
@@ -16,5 +16,13 @@
     "runtests": "~0.1.7",
     "brfs": "~0.2.1",
     "through": "~2.3.4"
-  }
+  },
+  "maintainers":[{
+   "name": "Michael Hernandez",
+   "email": "michael.hernandez1988@gmail.com",
+   "web": "http://miketheprogrammer.com"
+   },
+   {
+    "name": "Isaac B. Wagner"
+   }]
 }
